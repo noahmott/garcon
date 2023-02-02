@@ -11,8 +11,6 @@ from processing.data_manager import load_dataset, save_pipeline
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import GridSearchCV
 import xgboost as xgb
-import warnings
-warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 
 def run_training() -> None:

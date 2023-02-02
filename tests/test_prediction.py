@@ -1,10 +1,6 @@
 import math
-
 import numpy as np
-
 from garcon_model.predict import make_prediction
-import warnings
-warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 
 def test_make_prediction(sample_input_data):
