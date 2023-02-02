@@ -1,0 +1,31 @@
+name: train
+run_id: commands[0]
+env COMSPEC: C:\WINDOWS\system32\cmd.exe
+env NUMBER_OF_PROCESSORS: 8
+env PATHEXT: .COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC;.PY;.PYW;.CPL
+env PROCESSOR_ARCHITECTURE: AMD64
+env PROGRAMDATA: C:\ProgramData
+env PROGRAMFILES: C:\Program Files
+env PROGRAMFILES(X86): C:\Program Files (x86)
+env SYSTEMDRIVE: C:
+env SYSTEMROOT: C:\WINDOWS
+env TEMP: C:\Users\noahm\AppData\Local\Temp
+env TMP: C:\Users\noahm\AppData\Local\Temp
+env USERPROFILE: C:\Users\noahm
+env LANG: en_US.UTF-8
+env PATH: C:\Users\noahm\OneDrive\Documents\githubprojects\garcon\.tox\test_package\Scripts;C:\Python310\Scripts\;C:\Python310\;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Razer Chroma SDK\bin;C:\Program Files\Razer Chroma SDK\bin;C:\Program Files (x86)\Razer\ChromaBroadcast\bin;C:\Program Files\Razer\ChromaBroadcast\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Windows\system32\config\systemprofile\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Git\cmd;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\dotnet\;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files\PuTTY\;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\Program Files (x86)\Microsoft SQL Server\150\DTS\Binn\;C:\Program Files\Azure Data Studio\bin;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Users\noahm\AppData\Local\Microsoft\WindowsApps;C:\Users\noahm\AppData\Local\Programs\Microsoft VS Code\bin;C:\spark\bin;C:\Program Files\Java\jre1.8.0_301\bin;C:\Users\noahm\OneDrive\Documents\classes\flutter\sdks\flutter\bin;C:\Users\noahm\.dotnet\tools;C:\Users\noahm\AppData\Roaming\npm;C:\Users\noahm\AppData\Local\Programs\Azure Data Studio\bin;
+env PIP_DISABLE_PIP_VERSION_CHECK: 1
+env PYTHONIOENCODING: utf-8
+env PYTHONPATH: .
+env PYTHONHASHSEED: 0
+env TOX_ENV_NAME: train
+env TOX_WORK_DIR: C:\Users\noahm\OneDrive\Documents\githubprojects\garcon\.tox
+env TOX_ENV_DIR: C:\Users\noahm\OneDrive\Documents\githubprojects\garcon\.tox\test_package
+env VIRTUAL_ENV: C:\Users\noahm\OneDrive\Documents\githubprojects\garcon\.tox\test_package
+env COLUMNS: 152
+env LINES: 15
+metadata pid: 6936
+cwd: C:\Users\noahm\OneDrive\Documents\githubprojects\garcon
+allow: C:\Users\noahm\OneDrive\Documents\githubprojects\garcon\.tox\test_package\Scripts\*
+cmd: python garcon_model/train_pipeline.py
+exit_code: 0

@@ -1,0 +1,74 @@
+# Package Overview
+package_name: garcon_model
+
+# Data Files
+training_data_file: train.csv
+test_data_file: test.csv
+
+# Variables
+# The variable we are attempting to predict (sale price)
+target: canceled
+
+pipeline_name: xgb_pipeline
+pipeline_save_file: xgb_model_output_v
+
+
+features:
+  - no_of_adults
+  - no_of_children
+  - no_of_weekend_nights
+  - no_of_week_nights
+  - type_of_meal_plan
+  - required_car_parking_space
+  - room_type_reserved
+  - lead_time
+  - arrival_month
+  - arrival_date
+  - arrival_year
+  - market_segment_type
+  - repeated_guest
+  - no_of_previous_cancellations
+  - avg_price_per_room
+  - no_of_special_requests
+  #- season
+  #- avg_price_per_room_group
+  
+
+# set train/test split
+test_size: 0.1
+
+# to set the random seed
+random_state: 234
+
+alpha: 0.001
+
+
+temporal_vars:
+  - arrival_year
+
+ref_var: arrival_year
+
+
+
+numerical_vars:
+  - no_of_adults
+  - no_of_children
+  - no_of_weekend_nights
+  - no_of_week_nights
+  - required_car_parking_space
+  - lead_time
+  - arrival_month
+  - arrival_date
+  - no_of_previous_cancellations
+  - repeated_guest
+  - avg_price_per_room
+  - no_of_special_requests
+
+categorical_vars:
+  - type_of_meal_plan
+  - room_type_reserved
+  - market_segment_type
+  #- season_group
+  #- avg_price_per_room_group
+
+
