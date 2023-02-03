@@ -22,9 +22,9 @@ env TOX_ENV_NAME: train
 env TOX_WORK_DIR: C:\Users\noahm\OneDrive\Documents\githubprojects\garcon\.tox
 env TOX_ENV_DIR: C:\Users\noahm\OneDrive\Documents\githubprojects\garcon\.tox\test_package
 env VIRTUAL_ENV: C:\Users\noahm\OneDrive\Documents\githubprojects\garcon\.tox\test_package
-env COLUMNS: 152
+env COLUMNS: 111
 env LINES: 15
-metadata pid: 6936
+metadata pid: 24076
 cwd: C:\Users\noahm\OneDrive\Documents\githubprojects\garcon
 allow: C:\Users\noahm\OneDrive\Documents\githubprojects\garcon\.tox\test_package\Scripts\*
 cmd: python garcon_model/train_pipeline.py

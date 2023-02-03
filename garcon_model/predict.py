@@ -9,7 +9,7 @@ from garcon_model.processing.data_manager import load_pipeline
 from garcon_model.processing.validation import validate_inputs
 
 pipeline_file_name = f"{config.app_config.pipeline_save_file}{_version}.pkl"
-_price_pipe = load_pipeline(file_name=pipeline_file_name)
+xgbpipeline = load_pipeline(file_name=pipeline_file_name)
 
 
 def make_prediction(
@@ -23,7 +23,7 @@ def make_prediction(
     results = {"predictions": None, "version": _version, "errors": errors}
 
     if not errors:
-        predictions = _price_pipe.predict(
+        predictions = xgbpipeline.predict(
             X=validated_data[config.model_config.features]
         )
         results = {

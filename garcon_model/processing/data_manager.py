@@ -1,4 +1,5 @@
 import typing as t
+import warnings
 from pathlib import Path
 
 import joblib
@@ -7,15 +8,20 @@ from sklearn.pipeline import Pipeline
 
 from garcon_model import __version__ as _version
 from garcon_model.config.core import DATASET_DIR, TRAINED_MODEL_DIR, config
-import warnings
+
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 
 def load_dataset(*, file_name: str) -> pd.DataFrame:
     dataframe = pd.read_csv(Path(f"{DATASET_DIR}/{file_name}"))
-    dataframe.drop(['Booking_ID', 'no_of_previous_bookings_not_canceled'], axis=1, inplace=True)
-    dataframe['booking_status'] = dataframe['booking_status'].replace({'Not_Canceled':False, 'Canceled':True})
-    data=dataframe.rename({'booking_status':'canceled'}, axis=1)
+    dataframe.drop(
+        ["Booking_ID", "no_of_previous_bookings_not_canceled"], axis=1, inplace=True
+    )
+    dataframe["booking_status"] = dataframe["booking_status"].replace(
+        {"Not_Canceled": False, "Canceled": True}
+    )
+    data = dataframe.rename({"booking_status": "canceled"}, axis=1)
+    data['arrival_year']=data['arrival_year'].astype(str)
 
     return data
 

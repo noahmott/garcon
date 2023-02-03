@@ -2,8 +2,6 @@ import pytest
 
 from garcon_model.config.core import config
 from garcon_model.processing.data_manager import load_dataset
-import warnings
-warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 
 @pytest.fixture()

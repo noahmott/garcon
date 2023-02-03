@@ -1,10 +1,8 @@
 from pathlib import Path
-from typing import Dict, List, Optional, Sequence
+from typing import List, Optional, Sequence
 
 from pydantic import BaseModel
 from strictyaml import YAML, load
-import warnings
-warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 import garcon_model
 
