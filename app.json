@@ -1,0 +1,24 @@
+{
+  "name": "Garcon - Hotel Cancellation Predictor",
+  "description": "A machine learning application that predicts hotel booking cancellations using XGBoost",
+  "repository": "https://github.com/noahmott/garcon",
+  "keywords": ["python", "flask", "machine-learning", "xgboost", "prediction"],
+  "stack": "heroku-22",
+  "env": {
+    "FLASK_ENV": {
+      "description": "Flask environment setting",
+      "value": "production"
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "basic"
+    }
+  },
+  "buildpacks": [
+    {
+      "url": "heroku/python"
+    }
+  ]
+}
