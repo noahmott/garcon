@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Garcon - Hotel Cancellation Predictor</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+
+        .card h2 {
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+        }
+
+        .form-group small {
+            color: #888;
+            font-size: 0.8rem;
+            margin-top: 4px;
+        }
+
+        .section-title {
+            grid-column: 1 / -1;
+            color: #667eea;
+            font-size: 1.1rem;
+            margin-top: 10px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        .section-title:first-child {
+            margin-top: 0;
+            padding-top: 0;
+            border-top: none;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .result {
+            text-align: center;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .result.canceled {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a5a 100%);
+            color: white;
+        }
+
+        .result.not-canceled {
+            background: linear-gradient(135deg, #51cf66 0%, #40c057 100%);
+            color: white;
+        }
+
+        .result h3 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .result p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .result .icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .error {
+            background: #fff3f3;
+            border: 1px solid #ffcdd2;
+            color: #c62828;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .version {
+            text-align: center;
+            color: rgba(255,255,255,0.7);
+            font-size: 0.85rem;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Garcon</h1>
+            <p>Hotel Booking Cancellation Predictor</p>
+        </header>
+
+        {% if prediction is defined %}
+        <div class="result {{ 'canceled' if prediction else 'not-canceled' }}">
+            <div class="icon">{{ '⚠️' if prediction else '✅' }}</div>
+            <h3>{{ 'Likely to Cancel' if prediction else 'Likely to Keep Booking' }}</h3>
+            <p>Cancellation probability: {{ probability }}%</p>
+            <p style="font-size: 0.85rem; margin-top: 10px;">Model version: {{ version }}</p>
+        </div>
+        {% endif %}
+
+        {% if error %}
+        <div class="error">
+            <strong>Error:</strong> {{ error }}
+        </div>
+        {% endif %}
+
+        <div class="card">
+            <h2>Enter Booking Details</h2>
+            <form action="/predict" method="POST">
+                <div class="form-grid">
+                    <h4 class="section-title">Guest Information</h4>
+
+                    <div class="form-group">
+                        <label for="no_of_adults">Number of Adults</label>
+                        <input type="number" id="no_of_adults" name="no_of_adults"
+                               value="{{ form_data.no_of_adults if form_data else '2' }}"
+                               min="1" max="10" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="no_of_children">Number of Children</label>
+                        <input type="number" id="no_of_children" name="no_of_children"
+                               value="{{ form_data.no_of_children if form_data else '0' }}"
+                               min="0" max="10">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="repeated_guest">Repeated Guest</label>
+                        <select id="repeated_guest" name="repeated_guest">
+                            <option value="0" {{ 'selected' if form_data and form_data.repeated_guest == '0' else ('selected' if not form_data else '') }}>No (First Visit)</option>
+                            <option value="1" {{ 'selected' if form_data and form_data.repeated_guest == '1' }}>Yes (Returning Guest)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="no_of_previous_cancellations">Previous Cancellations</label>
+                        <input type="number" id="no_of_previous_cancellations" name="no_of_previous_cancellations"
+                               value="{{ form_data.no_of_previous_cancellations if form_data else '0' }}"
+                               min="0" max="50">
+                        <small>Number of times guest has canceled before</small>
+                    </div>
+
+                    <h4 class="section-title">Booking Details</h4>
+
+                    <div class="form-group">
+                        <label for="room_type_reserved">Room Type</label>
+                        <select id="room_type_reserved" name="room_type_reserved">
+                            {% for i in range(1, 8) %}
+                            <option value="Room_Type {{ i }}" {{ 'selected' if form_data and form_data.room_type_reserved == 'Room_Type ' ~ i else ('selected' if not form_data and i == 1 else '') }}>Room Type {{ i }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="type_of_meal_plan">Meal Plan</label>
+                        <select id="type_of_meal_plan" name="type_of_meal_plan">
+                            <option value="Not Selected" {{ 'selected' if form_data and form_data.type_of_meal_plan == 'Not Selected' else ('selected' if not form_data else '') }}>Not Selected</option>
+                            <option value="Meal Plan 1" {{ 'selected' if form_data and form_data.type_of_meal_plan == 'Meal Plan 1' }}>Meal Plan 1 (Breakfast)</option>
+                            <option value="Meal Plan 2" {{ 'selected' if form_data and form_data.type_of_meal_plan == 'Meal Plan 2' }}>Meal Plan 2 (Half Board)</option>
+                            <option value="Meal Plan 3" {{ 'selected' if form_data and form_data.type_of_meal_plan == 'Meal Plan 3' }}>Meal Plan 3 (Full Board)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="market_segment_type">Market Segment</label>
+                        <select id="market_segment_type" name="market_segment_type">
+                            <option value="Online" {{ 'selected' if form_data and form_data.market_segment_type == 'Online' else ('selected' if not form_data else '') }}>Online</option>
+                            <option value="Offline" {{ 'selected' if form_data and form_data.market_segment_type == 'Offline' }}>Offline</option>
+                            <option value="Corporate" {{ 'selected' if form_data and form_data.market_segment_type == 'Corporate' }}>Corporate</option>
+                            <option value="Aviation" {{ 'selected' if form_data and form_data.market_segment_type == 'Aviation' }}>Aviation</option>
+                            <option value="Complementary" {{ 'selected' if form_data and form_data.market_segment_type == 'Complementary' }}>Complementary</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="required_car_parking_space">Car Parking Required</label>
+                        <select id="required_car_parking_space" name="required_car_parking_space">
+                            <option value="0" {{ 'selected' if form_data and form_data.required_car_parking_space == '0' else ('selected' if not form_data else '') }}>No</option>
+                            <option value="1" {{ 'selected' if form_data and form_data.required_car_parking_space == '1' }}>Yes</option>
+                        </select>
+                    </div>
+
+                    <h4 class="section-title">Stay Duration</h4>
+
+                    <div class="form-group">
+                        <label for="no_of_weekend_nights">Weekend Nights</label>
+                        <input type="number" id="no_of_weekend_nights" name="no_of_weekend_nights"
+                               value="{{ form_data.no_of_weekend_nights if form_data else '1' }}"
+                               min="0" max="30">
+                        <small>Saturday and Sunday nights</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="no_of_week_nights">Week Nights</label>
+                        <input type="number" id="no_of_week_nights" name="no_of_week_nights"
+                               value="{{ form_data.no_of_week_nights if form_data else '2' }}"
+                               min="0" max="30">
+                        <small>Monday through Friday nights</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lead_time">Lead Time (Days)</label>
+                        <input type="number" id="lead_time" name="lead_time"
+                               value="{{ form_data.lead_time if form_data else '30' }}"
+                               min="0" max="500">
+                        <small>Days between booking and arrival</small>
+                    </div>
+
+                    <h4 class="section-title">Arrival Date</h4>
+
+                    <div class="form-group">
+                        <label for="arrival_year">Arrival Year</label>
+                        <select id="arrival_year" name="arrival_year">
+                            {% for year in range(2017, 2028) %}
+                            <option value="{{ year }}" {{ 'selected' if form_data and form_data.arrival_year|int == year else ('selected' if not form_data and year == 2025 else '') }}>{{ year }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="arrival_month">Arrival Month</label>
+                        <select id="arrival_month" name="arrival_month">
+                            {% set months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] %}
+                            {% for i in range(1, 13) %}
+                            <option value="{{ i }}" {{ 'selected' if form_data and form_data.arrival_month|int == i else ('selected' if not form_data and i == 6 else '') }}>{{ months[i-1] }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="arrival_date">Arrival Day</label>
+                        <input type="number" id="arrival_date" name="arrival_date"
+                               value="{{ form_data.arrival_date if form_data else '15' }}"
+                               min="1" max="31">
+                    </div>
+
+                    <h4 class="section-title">Pricing & Requests</h4>
+
+                    <div class="form-group">
+                        <label for="avg_price_per_room">Average Price per Room ($)</label>
+                        <input type="number" id="avg_price_per_room" name="avg_price_per_room"
+                               value="{{ form_data.avg_price_per_room if form_data else '100' }}"
+                               min="0" max="1000" step="0.01">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="no_of_special_requests">Special Requests</label>
+                        <input type="number" id="no_of_special_requests" name="no_of_special_requests"
+                               value="{{ form_data.no_of_special_requests if form_data else '0' }}"
+                               min="0" max="10">
+                        <small>Number of special requests made</small>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn">Predict Cancellation</button>
+            </form>
+        </div>
+
+        <p class="version">Powered by Garcon ML Model | XGBoost Classification</p>
+    </div>
+</body>
+</html>
